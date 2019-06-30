@@ -1,4 +1,4 @@
-export const readFile = fileName => {
+export const readFile = (fileName:string) => {
     var headers = new Headers();
     headers.append("Content-Type", "text/plain");
 

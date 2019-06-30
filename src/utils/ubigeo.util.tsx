@@ -3,10 +3,10 @@ const departaments={};
 const provinces={};
 const districts={};
 
-export const setUbigeo = (array) => {
-    let ubigeoVars = [departaments,provinces,districts];
+export const setUbigeo = (array:any) => {
+    let ubigeoVars:any[] = [departaments,provinces,districts];
 
-    array.forEach((elementObj,index) => {
+    array.forEach((elementObj:any,index:any) => {
         if(elementObj){
             ubigeoVars[index][elementObj.code]={
                 ...elementObj,
@@ -18,16 +18,16 @@ export const setUbigeo = (array) => {
     return ubigeoVars;
 }
 
-export const objectsArraysFromTextLinesArray = textLinesArray => {
+export const objectsArraysFromTextLinesArray = (textLinesArray:any) => {
     return textLinesArray
-        .map(originalLine=>{
+        .map((originalLine:any)=>{
             let itemsArray = originalLine.replace(/["']/g,"").split("/"); // Remove doubles quotes and split by '/'
 
             // Map itemsArray. Ex: ['01 Lima ',' ', ' ']
             // item examples: '01 Lima '
             // return objects array like: [{code: '01', name: 'Lima'},null,null]
             return itemsArray
-                    .map(item=>{
+                    .map((item:string)=>{
                         let clearString = item.trim();   // Remove unnecessary white spaces
 
                         let spaceIndex= clearString.indexOf(' '); // Find index of space between strings
