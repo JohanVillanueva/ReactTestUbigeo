@@ -6,6 +6,6 @@ In the project directory, you can run:
 
 ```npm install && npm start ```
 
-### To see all data obtained from .txt file in structures:
+### To test, select plain text file in:
 
-> Open console from your browser developer tools and refresh page
+> {app folder}/public/files/ubigeo.txt
