@@ -1,3 +1,9 @@
+export type HomeStateData = {
+    departments: UbigeoDictionary,
+    provinces: UbigeoDictionary,
+    districts: UbigeoDictionary
+}
+
 export type UbigeoInfo = {
     code : string;
     name : string;

@@ -1,42 +1,53 @@
-import React, { useContext } from 'react';
-import UbigeoContext from '../store/index.store';
-import { convertDataInStructures } from '../services/ubigeo.service';
+import React, { useContext, useState } from "react";
+import UbigeoContext from "../store/index.store";
+import { convertDataInStructures } from "../services/ubigeo.service";
 
 const FileUpload = () => {
-    let fileReader:FileReader = null;
-    const {handleDataChange} = useContext(UbigeoContext);
+  let fileReader: FileReader = null;
+  let fileInput = React.createRef<HTMLInputElement>();
 
-    const isPlainTextFile = (file : File):boolean => {
-        const type = file.type;
-        return type==='text/plain';
+  const { handleDataChange } = useContext(UbigeoContext);
+  const [currentFileName, setCurrentFileName] = useState('');
+
+  const isPlainTextFile = (file: File): boolean => {
+    const type = file.type;
+    return type === "text/plain";
+  };
+
+  const handleFileChange = (file: File) => {
+    if (file && isPlainTextFile(file)) {
+      setCurrentFileName(file.name);
+      fileReader = new FileReader();
+      fileReader.onloadend = () => {
+        convertDataInStructures(fileReader.result.toString()).subscribe(
+          ubigeoDataArray => {
+            handleDataChange(...ubigeoDataArray);
+          }
+        );
+      };
+      fileReader.readAsText(file);
+    } else {
+      alert("Solo se aceptar archivos de texto plano");
     }
+  };
 
-    const handleFileChange = (file:File) => {
-        if(file && isPlainTextFile(file)) {
-            fileReader = new FileReader();
-            fileReader.onloadend = () => {
-                convertDataInStructures(fileReader.result.toString())
-                .subscribe(ubigeoDataArray=>{
-                    handleDataChange(...ubigeoDataArray);
-                })
-            };
-            fileReader.readAsText(file);
-        } else{
-            alert('Solo se aceptar archivos de texto plano');
+  const handleButtonClick = () => fileInput.current.click();
+  
+  return (
+    <div className="file-upload-container">
+        <button onClick={handleButtonClick}>  Seleccionar Archivo  </button>
+        <input
+            type="file"
+            className = "hidden-input"
+            accept=".txt"
+            ref={fileInput}
+            onChange={e => handleFileChange(e.target.files[0])}
+        />
+        {
+            currentFileName && <small className="filename"><b>Archivo seleccionado: </b>{ currentFileName }</small>
         }
-    }
+    </div>
+  );
+};
 
-    return (
-        <div>
-            <fieldset >
-                <input type="file" accept=".txt"
-                    onChange={(e) => handleFileChange(e.target.files[0])} />
-            </fieldset>
-            <br/>
-        </div>      
-    );
-}
-    
 export default FileUpload;
-    
-    

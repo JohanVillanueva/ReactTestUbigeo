@@ -1,4 +1,4 @@
-import { UbigeoDictionary } from '../types/index';
+import { UbigeoDictionary } from '../types/index.types';
 
 const departments={};
 const provinces={};

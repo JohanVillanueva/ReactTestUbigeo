@@ -1,7 +1,7 @@
 import { map, last } from 'rxjs/operators';
 import { setUbigeo, objectsArraysFromTextLinesArray, SingleLocationUbigeo } from '../utils';
 import { from, Observable } from 'rxjs';
-import { UbigeoDictionary } from '../types/index';
+import { UbigeoDictionary } from '../types/index.types';
 
 export const convertDataInStructures = (originalDataPlot:string): Observable<Array<UbigeoDictionary>> => {
     let splitedData:string[] = originalDataPlot.split('\n');
