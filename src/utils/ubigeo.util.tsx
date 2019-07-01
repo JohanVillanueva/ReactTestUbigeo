@@ -1,12 +1,18 @@
+import { UbigeoDictionary } from '../types/index';
 
-const departaments={};
+const departments={};
 const provinces={};
 const districts={};
 
-export const setUbigeo = (array:any) => {
-    let ubigeoVars:any[] = [departaments,provinces,districts];
+export interface SingleLocationUbigeo {
+    code:string;
+    name:string;
+}
 
-    array.forEach((elementObj:any,index:any) => {
+export const setUbigeo = (array:Array<SingleLocationUbigeo>): Array<UbigeoDictionary> => {
+    let ubigeoVars:UbigeoDictionary[] = [departments,provinces,districts];
+
+    array.forEach((elementObj:SingleLocationUbigeo,index:number) => {
         if(elementObj){
             ubigeoVars[index][elementObj.code]={
                 ...elementObj,
@@ -18,10 +24,10 @@ export const setUbigeo = (array:any) => {
     return ubigeoVars;
 }
 
-export const objectsArraysFromTextLinesArray = (textLinesArray:any) => {
+export const objectsArraysFromTextLinesArray = (textLinesArray:Array<string>):Array<SingleLocationUbigeo[]> => {
     return textLinesArray
-        .map((originalLine:any)=>{
-            let itemsArray = originalLine.replace(/["']/g,"").split("/"); // Remove doubles quotes and split by '/'
+        .map((originalLine:string)=>{
+            let itemsArray:Array<string> = originalLine.replace(/["']/g,"").split("/"); // Remove doubles quotes and split by '/'
 
             // Map itemsArray. Ex: ['01 Lima ',' ', ' ']
             // item examples: '01 Lima '
@@ -39,7 +45,7 @@ export const objectsArraysFromTextLinesArray = (textLinesArray:any) => {
                                 {
                                     code:clearString.substring(0,spaceIndex),
                                     name:clearString.substring(spaceIndex+1,item.length)
-                                }:
+                                } as SingleLocationUbigeo:
                                 null;
                     })
             }
